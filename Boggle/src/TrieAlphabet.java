@@ -1,8 +1,8 @@
 /**
  * Created by zora on 4/18/16.
  */
-import java.util.Iterator;
 
+// Trie structure with only A-Z 26 ways.
 public class TrieAlphabet {
     private static final int R = 26;        // extended ASCII
 
@@ -30,6 +30,8 @@ public class TrieAlphabet {
         return x.isString;
     }
 
+
+    // Overload with String
     public boolean contains(String key) {
         Node x = get(root, key, 0);
         if (x == null) return false;
@@ -37,6 +39,7 @@ public class TrieAlphabet {
     }
 
 
+    // Return Node
     private Node get(Node x, String key, int d) {
         if (x == null) return null;
         if (d == key.length()) return x;

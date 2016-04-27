@@ -16,6 +16,7 @@ public class BoggleSolver {
     // Initializes the data structure using the given array of strings as the dictionary.
     // (You can assume each word in the dictionary contains only the uppercase letters A through Z.)
     public BoggleSolver(String[] dictionary) {
+        // Use 26-way Trie to save dictionary
         dictTrie = new TrieAlphabet();
         for (String entry : dictionary) {
             dictTrie.add(entry);
@@ -25,10 +26,12 @@ public class BoggleSolver {
     // Returns the set of all valid words in the given Boggle board, as an Iterable.
     public Iterable<String> getAllValidWords(BoggleBoard board) {
 
+        // Save all possible word in iterable Bag variable solution
         solution = new Bag<>();
         solutionTrie = new TrieAlphabet();
         visited = new boolean[board.rows()][board.cols()];
 
+        // Save 8-way moves in aux array
         int size_aux_0 = 8, size_aux_1 = 2;
         aux = new int[size_aux_0][size_aux_1];
         for (int i = 0; i < size_aux_0; i++)
@@ -46,14 +49,17 @@ public class BoggleSolver {
         aux[6][1] = 1;
         aux[7][0] = -1;
 
+        // Mark all graid unvisited
         for (int i = 0; i < board.rows(); i++)
             for (int j = 0; j < board.cols(); j++)
                 visited[i][j] = false;
 
+        // Start new word
         word = new StringBuilder();
         for (int i = 0; i < board.rows(); i++) {
             for (int j = 0; j < board.cols(); j++) {
                 addLetter(board.getLetter(i, j), i, j);
+                // recursion
                 findWords(board, i, j);
                 removeLetter(i, j);
             }
@@ -64,6 +70,7 @@ public class BoggleSolver {
     private void findWords(BoggleBoard board, int i, int j) {
         for (int k = 0; k < 8; k++) {
             int new_i = i + aux[k][0], new_j = j + aux[k][1];
+
 
             if (new_i >= 0 && new_i < board.rows() && new_j >= 0 && new_j < board.cols()
                     && !visited[new_i][new_j]) {
